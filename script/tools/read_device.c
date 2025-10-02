@@ -45,7 +45,7 @@ typedef struct __attribute__((packed)) {
         struct {
             uint8_t sw_status : 1; // 5V OUTPUT status (0=Off,1=On)
             uint8_t fast : 1; // Fast charging status (0=slow charging/no external power, 1=12V fast charging)
-            uint8_t charge : 1; // Charge/discharge status (0=charging, 1=discharging)
+            uint8_t charge : 1; // Charge/discharge status (1=charging, 0=discharging)    // if "charging" is related to the batteries, then exchange meaning. deHarro
             uint8_t input_low : 1; // Input voltage low (0=normal, 1=low)
             uint8_t output_low : 1; // 5V output low (0=normal, 1=low)
             uint8_t battery_low : 1; // Battery voltage low (0=normal, 1=low)
@@ -107,7 +107,7 @@ void debug_print(DeviceStatus* status) {
     printf("Status Register 1 (sr1):       0x%02X\n", status->sr1);
     printf("    5V Output status     : %s\n", status->sw_status ? "ON" : "OFF");
     printf("    Fast Charge Mode     : %s\n", status->fast ? "Fast Charge" : "Slow Charge/No External Power");
-    printf("    Charging Status      : %s\n", status->charge ? "Discharging" : "Charging");
+    printf("    Charging Status      : %s\n", status->charge ? "Charging" : "Discharging");    // if "charging" is related to the batteries, then exchange meaning. deHarro
     printf("    Input Voltage Low    : %s\n", status->input_low ? "LOW" : "Normal");
     printf("    Output Voltage LOW   : %s\n", status->output_low ? "LOW" : "Normal");
     printf("    Battery Voltage LOW  : %s\n", status->battery_low ? "LOW" : "Normal");
