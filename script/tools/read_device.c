@@ -45,7 +45,7 @@ typedef struct __attribute__((packed)) {
         struct {
             uint8_t sw_status : 1; // 5V OUTPUT status (0=Off,1=On)
             uint8_t fast : 1; // Fast charging status (0=slow charging/no external power, 1=12V fast charging)
-            uint8_t charge : 1; // Charge/discharge status (0=charging, 1=discharging)
+            uint8_t charge : 1; // Charge/discharge status (1=charging, 0=discharging)
             uint8_t input_low : 1; // Input voltage low (0=normal, 1=low)
             uint8_t output_low : 1; // 5V output low (0=normal, 1=low)
             uint8_t battery_low : 1; // Battery voltage low (0=normal, 1=low)
@@ -86,9 +86,17 @@ typedef struct __attribute__((packed)) {
 void debug_print(DeviceStatus* status) {
     printf("🌟 Read Device Status Information🌟\n");
 
-    // 打印每个字段
+    // Print each field
     printf("WHO_AM_I:             0x%02X\n", status->WHO_AM_I);
-    printf("Version:              0x%02X\n", status->version);
+    //status->version = 0b01100010 ; 				// for test purpose only, major: 0b011, minor: 0b00010 - should give "V3.2" as output
+    if(((status->version >> 5) & 0b00000111) > 0) 	// then we have the new definition of version with major/minor version
+    {
+        printf("Version:              V%d.%d\n", ((status->version >> 5) & 0b00000111), (status->version & 0b00011111));
+    }
+    else
+    {
+        printf("Version:              0x%02X\n", status->version);
+    }
     printf("UUID:                 0x%08X 0x%08X 0x%08X\n", status->uuid0, status->uuid1, status->uuid2);
     printf("Output Voltage:       %u mV\n", status->output_voltage);
     printf("Input Voltage:        %u mV\n", status->input_voltage);
@@ -107,7 +115,7 @@ void debug_print(DeviceStatus* status) {
     printf("Status Register 1 (sr1):       0x%02X\n", status->sr1);
     printf("    5V Output status     : %s\n", status->sw_status ? "ON" : "OFF");
     printf("    Fast Charge Mode     : %s\n", status->fast ? "Fast Charge" : "Slow Charge/No External Power");
-    printf("    Charging Status      : %s\n", status->charge ? "Discharging" : "Charging");
+    printf("    Charging Status      : %s\n", status->charge ? "Charging" : "Discharging");
     printf("    Input Voltage Low    : %s\n", status->input_low ? "LOW" : "Normal");
     printf("    Output Voltage LOW   : %s\n", status->output_low ? "LOW" : "Normal");
     printf("    Battery Voltage LOW  : %s\n", status->battery_low ? "LOW" : "Normal");
@@ -122,7 +130,7 @@ void debug_print(DeviceStatus* status) {
     printf("Power-on auto-start battery voltage threshold : %u mV\n", status->auto_start_voltage);
     printf("Reserved Register :    0x%04X\n", status->rsv);
     printf("Request OTA(Over-The-Air update) :   0x%04X\n", status->ota_request);
-    printf("Accumulated operating time :  %llu microseconds\n", status->runtime);
+    printf("Accumulated operating time :  %lu milliseconds\n", status->runtime);
     printf("Charging chip trigger interval :     %u seconds\n", status->charge_detect_interval_s);
     printf("LED Control:               0x%02X\n", status->led_ctl);
 

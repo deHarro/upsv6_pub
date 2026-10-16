@@ -12,18 +12,29 @@ bus = SMBus(1)  # 1 means I2C no.1 bus
 
 # Define registers address
 # WHO_AM_I_REG = 0x00 // will always be 0xA6
-VERSION_REG = 0x01
-UID0_REG = 0x02
-UID1_REG = 0x06
-UID2_REG = 0x0A
-OUTPUT_VOLTAGE_REG = 0x0E
-INPUT_VOLTAGE_REG = 0x10
-BATTERY_VOLTAGE_REG = 0x12
-MCU_VOLTAGE_REG = 0x14
-OUTPUT_CURRENT_REG = 0x16
-INPUT_CURRENT_REG = 0x18
-BATTERY_CURRENT_REG = 0x1A
-TEMPERATURE_REG = 0x1C
+VERSION_REG = 0x01              #  8bit - R
+UID0_REG = 0x02                 # 32bit - R
+UID1_REG = 0x06                 # 32bit - R
+UID2_REG = 0x0A                 # 32bit - R
+OUTPUT_VOLTAGE_REG = 0x0E       # 16bit - R
+INPUT_VOLTAGE_REG = 0x10        # 16bit - R
+BATTERY_VOLTAGE_REG = 0x12      # 16bit - R
+MCU_VOLTAGE_REG = 0x14          # 16bit - R
+OUTPUT_CURRENT_REG = 0x16       # 16bit - R
+INPUT_CURRENT_REG = 0x18        # 16bit - R
+BATTERY_CURRENT_REG = 0x1A      # 16bit - R
+TEMPERATURE_REG = 0x1C          #  8bit - R
+CONTROL1_REG = 0x1D             #  8bit - R/W
+CONTROL2_REG = 0x1E             #  8bit - R/W (reserved)
+STATUS1_REG = 0x1F              #  8bit - R
+STATUS2_REG = 0x20              #  8bit - R
+BATT_PROT_VOLT_REG = 0x21       # 16bit - R/W (mV)
+SHUTDWN_COUNTR_REG = 0x23       # 16bit - R/W (seconds)
+AUTOSTART_VOLT_REG = 0x25       # 16bit - R/W (mV)
+PYTHON_BUF_LEN_REG = 0x27       # 16bit - R/W
+OTA_REQUEST_REG = 0x29          # 16bit - W   (0xA5A5 -> FW update mode, OTA mode)
+RUNTIME_REG = 0x2B              # 64bit - R   (overall runtime, microseconds)
+CHARGEDETECT_INTERVAL = 0x33    # 16bit - R/W (seconds)
 
 # Define ANSI color
 RED = '\033[95m'

@@ -14,7 +14,7 @@ check_deps:
 		fi \
 	done
 
-# 统一用 $(LIBS) 链接所有目标
+# Use $(LIBS) to link all targets
 $(TARGETS): %: %.c
 	$(CC) $(CFLAGS) $< -o $@ $(LIBS)
 

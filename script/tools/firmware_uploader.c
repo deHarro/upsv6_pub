@@ -116,7 +116,7 @@ int write_register_and_data(int fd, uint8_t ctrl, uint8_t *data, size_t size) {
     return 0;
 }
 
-// Calculate the nearest multiple of 16
+// 计算最近的16的倍数 (Calculate the nearest multiple of 16)
 size_t round_up_to_multiple_of_16(size_t len)
 {
     return (len + 15) & ~15;
@@ -225,7 +225,7 @@ int main(int argc, char *argv[]) {
         }
         total += bytes_read;
 
-        // Show progress	------------------------------------------------------
+        // Show progress
 	// workaround for passing static local pointer as return value, deHarro
 	char totalBytes[20];
 	strncpy(totalBytes, bytes_to_human(total), sizeof(bytes_to_human(total)));
